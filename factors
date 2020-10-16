@@ -1,10 +1,23 @@
-#!/usr/bin/env bash
-# Reads the passed file as argument and print factors
+#!/usr/bin/python3
+""" Factors """
+import math
+from sys import argv
 
-MY_FILE=$1
 
-while read MY_NUM
-do
-    factors=($(factor $MY_NUM))
-    echo "$MY_NUM=$(($MY_NUM/${factors[1]}))*${factors[1]}"
-done < $MY_FILE
+def factor(my_number, test_num):
+    """ Factor function"""
+
+    print("{}={}*{}".format(my_number, (my_number // test_num), test_num))
+
+
+with open(argv[1], mode="r", encoding="UTF-8") as f:
+    for line in f:
+        my_number = int(line)
+        if my_number % 2 == 0:
+            factor(my_number, 2)
+        else:
+            max_my_number_to_test = math.floor(math.sqrt(my_number))
+            for test_num in range(3, max_my_number_to_test + 1, 2):
+                if my_number % test_num == 0:
+                    factor(my_number, test_num)
+                    break
